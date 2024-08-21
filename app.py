@@ -50,5 +50,6 @@ fig1= px.scatter(vehiclesv2, x='model_year', y='price', color='type', color_disc
 fig1.update_layout(title_text= 'Median Price by Vehicle Type and Model Year', xaxis_title='Model Year', yaxis_title='Median Price')
 st.plotly_chart(fig1)
 
-fig2 = px.histogram(vehiclesv1, x='model_year',title_text= 'Distribution of Car Price')
+fig2 = px.histogram(vehiclesv1, x='model_year')
+fig2.update_layout(title_text= 'Median Price by Vehicle Type and Model Year')
 st.plotly_chart(fig2)
