@@ -3,13 +3,34 @@ import pandas as pd
 import math as mt
 import numpy as np
 import plotly.express as px
+import sys
+sys.setrecursionlimit(60000)
+# necessary to avoid recursion errors later
+## Based on the sample data set I am going to move forward wth the fllowing assumptions:
+####    - Nan values on the 4wd section mean it is not 4 wheel drve
+####    - model_year: fill by median year (don4t drop rows with NaNs in this column) 
+####    - cylindres: fill by median cylindres 
+####    - Removing  vehices priced over 60K.
+####    - Removing vehicls with missing odometer data. Mileage is a very important determning factor
+#  on buying a vehicle, and if you don't know what it is I persnally woudn't buy it. Too big of a risk
+
 # Vehice Df cleanup 
 vehicles=pd.read_csv('vehicles_us.csv',sep=',')
-vehiclesv1=vehicles[vehicles['model_year'].notna()]
-vehiclesv1['make'] = vehiclesv1['model'].str.split(expand=True)[0]
+def median_fill(df, column):
+    df[column].fillna(df[column].median(), inplace=True)
+    return df
+median_fill(vehicles,"cylinders")
+median_fill(vehicles,"model_year")
+#vehiclesv1=vehicles[vehicles['model_year'].notna()]
+#vehiclesv1['make'] = vehiclesv1['model'].str.split(expand=True)[0]
+vehicles['odometer'].dropna()
+vehiclesv1=vehicles
 vehiclesv1['is_4wd'].replace(1,'Yes', inplace=True)
 vehiclesv1['is_4wd'].fillna('No',inplace=True)
 vehiclesv2=vehiclesv1.groupby(['type','model_year'])['price'].median().reset_index()
+vehiclesv1['make'] = vehiclesv1['model'].str.split(expand=True)[0]
+vehiclesv1 = vehiclesv1[vehiclesv1['model_year']>= 1980]
+vehiclesv1 = vehiclesv1[vehiclesv1['price']<= 60000]
 # potly and visible information
 st.header("TripleTen Sprint 4 App", divider=True)
 fig1= px.scatter(vehiclesv2, x='model_year', y='price', color='type', color_discrete_sequence=[
