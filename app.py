@@ -27,10 +27,10 @@ vehicles['odometer'].dropna()
 vehiclesv1=vehicles
 vehiclesv1['is_4wd'].replace(1,'Yes', inplace=True)
 vehiclesv1['is_4wd'].fillna('No',inplace=True)
-vehiclesv2=vehiclesv1.groupby(['type','model_year'])['price'].median().reset_index()
 vehiclesv1['make'] = vehiclesv1['model'].str.split(expand=True)[0]
 vehiclesv1 = vehiclesv1[vehiclesv1['model_year']>= 1980]
 vehiclesv1 = vehiclesv1[vehiclesv1['price']<= 60000]
+vehiclesv2=vehiclesv1.groupby(['type','model_year'])['price'].median().reset_index()
 # potly and visible information
 st.header("TripleTen Sprint 4 App", divider=True)
 fig1= px.scatter(vehiclesv2, x='model_year', y='price', color='type', color_discrete_sequence=[
@@ -50,6 +50,5 @@ fig1= px.scatter(vehiclesv2, x='model_year', y='price', color='type', color_disc
 fig1.update_layout(title_text= 'Median Price by Vehicle Type and Model Year', xaxis_title='Model Year', yaxis_title='Median Price')
 st.plotly_chart(fig1)
 
-fig2 = px.histogram(vehiclesv1, x='model_year')
-
+fig2 = px.histogram(vehiclesv1, x='model_year',title_text= 'Distribution of Car Price')
 st.plotly_chart(fig2)
