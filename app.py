@@ -56,4 +56,4 @@ st.plotly_chart(fig2)
 
 #The Graphs wil show a scatter  plot and a histogram
 # for the scatterplot  it is catergorized by colors
-#
+#using st.plotly_express allows the charts to show up on streamlit web app
