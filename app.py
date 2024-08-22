@@ -53,3 +53,7 @@ st.plotly_chart(fig1)
 fig2 = px.histogram(vehiclesv1, x='model_year')
 fig2.update_layout(title_text= 'Median Price by Vehicle Type and Model Year')
 st.plotly_chart(fig2)
+
+#The Graphs wil show a scatter  plot and a histogram
+# for the scatterplot  it is catergorized by colors
+#
